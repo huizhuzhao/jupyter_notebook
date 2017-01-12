@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
-# author: huizhu
-# created time: 2017年01月08日 星期日 11时56分22秒
-# last modified:
+# Created Time: 2017年01月12日 星期四 23时05分20秒
 
 import numpy as np
 from numpy.matlib import repmat
+from jupyter_notebook.utils import data_iterator
 from keras.models import Sequential
 from keras.layers import Dense
-from jupyter_notebook.utils import data_iterator
 
 def gen_data():
     x = np.asarray([[0., 0.], [0., 1.], [1., 0.], [1., 1.]], dtype=np.float)
@@ -35,7 +33,6 @@ def train_model(model, data_it, num_batches=10, loop=10):
         tmp_loss_metrics = np.mean(np.asarray(tmp_loss_metrics), axis=0)
         loss_metrics.append(tmp_loss_metrics)
     return loss_metrics
-
 
 def main():
     x, y = gen_data()
