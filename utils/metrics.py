@@ -42,7 +42,19 @@ def regression_shape_check(y_pred, y_true):
     return y_pred, y_true
 
 if __name__ == '__main__':
-	x = np.random.randn(10)
-	y = np.random.randn(10)
-	r = correlation_pearson(x, y)
-	print r
+	
+	import matplotlib.pyplot as plt
+	num = 100
+	x = np.random.randn(num)
+	y_0 = np.random.randn(num)
+	y_1 = 0.5 * x
+	y_2 = -0.5 * x
+	r_0 = correlation_pearson(x, y_0)
+	r_1 = correlation_pearson(x, y_1)
+	r_2 = correlation_pearson(x, y_2)
+	print r_0, r_1, r_2
+	plt.subplot(1, 3, 1)
+	plt.scatter(x, y_0)
+	plt.subplot(1, 3, 2)
+	plt.scatter(x, y_1)
+	plt.show()
