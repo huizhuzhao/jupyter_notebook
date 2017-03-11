@@ -7,8 +7,9 @@
 import numpy as np
 import progressbar
 import time
+from sklearn.metrics import roc_curve, auc
 
-def train_model_keras(model, train_dataset, valid_dataset=None, nb_epoch=10, nb_batches=None, progressbar_ON=False):
+def train_model_keras(model, train_dataset, valid_dataset=None, nb_epoch=10, nb_batches=None, progressbar_ON=False, extra_metrics={'auc': False, 'roc': False}):
     """
     inputs
     -------
@@ -26,14 +27,23 @@ def train_model_keras(model, train_dataset, valid_dataset=None, nb_epoch=10, nb_
         keys::valid_loss_metrics: list of 1D np.ndarrays or [](if valid_dataset is None)
     """
 
-    def loss_metrics(model, dataset):
+    def loss_metrics(model, dataset, extra_metrics):
         """
         compute loss value and metrics
         """
         if dataset is None:
             return []
         batch_lm = model.test_on_batch(dataset.data, dataset.labels)
-        return np.asarray(batch_lm)
+
+        if extra_metrics['auc']:
+            assert len(dataset.labels.shape) == 2
+            y_true = np.argmax(dataset.labels, axis=1)
+            y_pred = model.predict(dataset.data)[:, 1]
+            fpr, tpr, threshold = roc_curve(y_true, y_pred)
+            roc_auc = auc(fpr, tpr)
+            batch_lm.append(roc_auc)
+        return np.array(batch_lm)
+
 
     def train_one_epoch(model, dataset, nb_batches, progressbar_ON):
         if progressbar_ON:
@@ -60,13 +70,13 @@ def train_model_keras(model, train_dataset, valid_dataset=None, nb_epoch=10, nb_
         train_nb_batches = nb_batches
 
 
-    train_lm = loss_metrics(model, train_dataset)
-    valid_lm = loss_metrics(model, valid_dataset)
+    train_lm = loss_metrics(model, train_dataset, extra_metrics)
+    valid_lm = loss_metrics(model, valid_dataset, extra_metrics)
     print '{0}/{1}, train: {2}, valid: {3}'.format(0, nb_epoch, train_lm, valid_lm)
     for ii in range(nb_epoch):
         train_one_epoch(model, train_dataset, train_nb_batches, progressbar_ON)
-        train_lm = loss_metrics(model, train_dataset)
-        valid_lm = loss_metrics(model, valid_dataset)
+        train_lm = loss_metrics(model, train_dataset, extra_metrics)
+        valid_lm = loss_metrics(model, valid_dataset, extra_metrics)
         train_loss_metrics.append(train_lm)
         valid_loss_metrics.append(valid_lm)
         print '{0}/{1}, train: {2}, valid: {3}'.format(ii+1, nb_epoch, train_lm, valid_lm)
