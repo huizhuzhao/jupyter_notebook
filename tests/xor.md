@@ -3,21 +3,7 @@
 
 首先 xor 问题的数据如下，也就是输入为 X, 输出为 Y
 
-$
-X = \begin{pmatrix}
-0 & 0 \\
-0 & 1 \\
-1 & 0 \\
-1 & 1 \\
-\end{pmatrix}
-\qquad Y = \begin{pmatrix}
-1 \\
-0 \\
-0 \\
-1 \\
-\end{pmatrix}
-$
-
+![](http://oe5p7f8mz.bkt.clouddn.com/xor_x_y.png)
 我们希望训练一个简单的多层感知器 (MLP) 模型 f 能够满足上面的要求，即将输入正确的映射到输出
 ```
 Y = f(X)
