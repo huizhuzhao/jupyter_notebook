@@ -4,6 +4,7 @@
 首先 xor 问题的数据如下，也就是输入为 X, 输出为 Y
 
 ![](http://oe5p7f8mz.bkt.clouddn.com/xor_x_y.png)
+
 我们希望训练一个简单的多层感知器 (MLP) 模型 f 能够满足上面的要求，即将输入正确的映射到输出
 ```
 Y = f(X)
@@ -72,4 +73,6 @@ loss = z * -log(sigmoid(x)) + (1 - z) * -log(1 - sigmoid(x))
 
 模型训练结果如下：
 
-![](http://ojwkl64pe.bkt.clouddn.com/xor_res.png?imageView2/2/h/400) 准确率(acc 紫色) 和 损失函数 (loss 蓝色) 与 epoch 之间的关系图，可以看出在 `epoch~50` 时，训练集上的准确率达到 `100%`，但损失函数的下降趋势扔在继续。
+![](http://ojwkl64pe.bkt.clouddn.com/xor_res.png?imageView2/2/h/400) 
+
+准确率(acc 紫色) 和 损失函数 (loss 蓝色) 与 epoch 之间的关系图，可以看出在 `epoch~50` 时，训练集上的准确率达到 `100%`，但损失函数的下降趋势扔在继续。
