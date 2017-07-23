@@ -80,5 +80,5 @@ plt.show()
 Now, we fix `n_samples * n_repeat == 1e5`, and the following fig shows how the model performs with respect to `n_samples`. As we can see **too much** training data (n_samples = 1e5) do not means better performance.
 
 
-![](files_sin_fitting/sin_fitting_04.png)
+![](fitting_files/sin_fitting_04.png)
 
